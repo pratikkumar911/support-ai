@@ -63,7 +63,7 @@ function HomeClient({ email }: HomeClientProp) {
                 className="fixed left-0 w-full z-50 bg-white/70 backdrop-blur-xl border-b border-zinc-200"
             >
                 <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-                    <div className="text-lf font-semibold tracking-tight">Support <span className="text-zinc-400">AI</span></div>
+                    <div className="text-lf font-semibold tracking-tight cursor-pointer">Support <span className="text-zinc-400">AI</span></div>
                     {email ? <div className="relative" ref={popupRef}>
                         <button className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-semibold hover:scale-105 transition" onClick={() => { setOpen(!open) }}>
                             {firstLetter}
@@ -81,7 +81,7 @@ function HomeClient({ email }: HomeClientProp) {
                                 </motion.div>
                             )}
                         </AnimatePresence>
-                    </div> : <button className="px-5 py-2 rounded-full bg-black text-white test-sm font-medium hover:bg-zinc-800 transition disabled:opacity-60 flex items-center gap-2" onClick={handleLogin}>
+                    </div> : <button className="px-5 py-2 rounded-full bg-black text-white test-sm font-medium hover:bg-zinc-800 transition disabled:opacity-60 flex items-center gap-2 cursor-pointer" onClick={handleLogin}>
                         Login
                     </button>}
                 </div>
@@ -104,8 +104,8 @@ function HomeClient({ email }: HomeClientProp) {
                         </p>
                         <div className="mt-10 flex gap-4">
                             {email ?
-                                <button className="px-7 py-3 rounded-xl bg-black text-white font-medium hover:bg-zinc-800 transition disabled:opacity-60" onClick={()=>navigate.push("/dashboard")}>Go to Dashboard</button>
-                                : <button className="px-7 py-3 rounded-xl bg-black text-white font-medium hover:bg-zinc-800 transition disabled:opacity-60" onClick={handleLogin}>Get Started</button>
+                                <button className="px-7 py-3 rounded-xl bg-black text-white font-medium hover:bg-zinc-800 transition disabled:opacity-60 cursor-pointer" onClick={()=>navigate.push("/dashboard")}>Go to Dashboard</button>
+                                : <button className="px-7 py-3 rounded-xl bg-black text-white font-medium hover:bg-zinc-800 transition disabled:opacity-60 cursor-pointer" onClick={handleLogin}>Get Started</button>
 
                             }
                             <a href="#feature" className="px-7 py-3 rounded-xl border border-zinc-300 text-zinc-700 hover:bg-zinc-100 transition">Learn More</a>

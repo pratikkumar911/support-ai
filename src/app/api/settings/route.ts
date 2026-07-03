@@ -11,13 +11,13 @@ export async function POST(req: NextRequest) {
                     {status:400}
                 )
             }
-            await connectDb()
+            await connectDb();
 
             const settings = await Settings.findOneAndUpdate(
-                {ownerId},
-                {ownerId, businessName, supportEmail, knowledge},
-                {new:true, upsert:true}
-            )
+                { ownerId },
+                { ownerId, businessName, supportEmail, knowledge },
+                { returnDocument: 'after', upsert: true }
+            );
             return NextResponse.json(settings);
     } catch (error) {
         return NextResponse.json(

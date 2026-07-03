@@ -1,33 +1,38 @@
 import { connect } from "mongoose";
+import { setServers } from "node:dns";
 
-const mongo_Url = process.env.MONGODB_URL
+setServers(["1.1.1.1", "8.8.8.8"]);
 
-if(!mongo_Url){
-    console.log("mongo db url not found");
+const mongo_Url = process.env.MONGODB_URL?.replace(/^"(.*)"$/, "$1");
+if (!mongo_Url) {
+    console.error("MongoDB URL not found. Set MONGODB_URL in .env.local");
 }
 
-let cache = global.mongoose
+let cache = global.mongoose;
 
-if(!cache){
-    cache = global.mongoose={conn:null, promise:null}
+if (!cache) {
+    cache = global.mongoose = { conn: null, promise: null };
 }
 
 const connectDb = async () => {
-    if(cache.conn){
-        return cache.conn
+    if (cache.conn) {
+        return cache.conn;
     }
 
-    if(!cache.promise){
-        cache.promise = connect(mongo_Url!).then((c)=>c.connection)
+    if (!cache.promise) {
+        cache.promise = connect(mongo_Url!).then((c) => {
+            cache.conn = c.connection;
+            return cache.conn;
+        });
     }
 
     try {
-        const conn = await cache.promise
+        return await cache.promise;
     } catch (error) {
-        console.log(error)
+        cache.promise = null;
+        console.error("MongoDB connection error:", error);
+        throw error;
     }
-
-    return cache.conn;
-}
+};
 
 export default connectDb

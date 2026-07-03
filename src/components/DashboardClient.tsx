@@ -1,10 +1,47 @@
 'use client'
 
+import axios from "axios";
 import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
+import {useState, useEffect} from "react";
 
 function DashboardClient({ownerId}:{ownerId: string}) {
     const navigate = useRouter();
+
+    const [businessName, setBusinessName] = useState('');
+    const [supportEmail, setSupportEmail] = useState('');
+    const [knowledge, setKnowledge] = useState('')
+    const [loading, setLoading] = useState(false);
+    const [saved, setSaved] = useState(false);
+
+    const handleSettings = async () => {
+        setLoading(true);
+        try {
+            const result = await axios.post("/api/settings", {ownerId, businessName, supportEmail, knowledge});
+            console.log(result)
+            setSaved(true);
+            setTimeout(()=>setSaved(false), 3000)
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    useEffect(()=> {
+        const handleGetDetails = async () => {
+            try {
+                const result = await axios.post("/api/settings/get", {ownerId});
+                setBusinessName(result.data.businessName);
+                setSupportEmail(result.data.supportEmail)
+                setKnowledge(result.data.knowledge)
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        handleGetDetails();
+    },[ownerId])
 
     return (
         <div className="min-h-screen bg-zinc text-zinc-900">
@@ -20,13 +57,50 @@ function DashboardClient({ownerId}:{ownerId: string}) {
                 </div>
             </motion.div>
             <div className="flex justify-center px-4 py-14">
-                <motion.div className="w-full max-w-3xl bg-white rounded-2xl shadow-xl p-10">
+                <motion.div className="w-full max-w-3xl bg-white rounded-2xl shadow-xl p-10 mt-20">
                     <div className="mb-10">
                         <h1 className="text-2xl font-semibold">Chatbot Settings</h1>
                         <p className="text-zinc-500 mt-1">Manage your AI chatbot knowledge and business details</p>
                     </div>
                     <div className="mb-10">
-                        <h1 className="">Business Details</h1>
+                        <h1 className="text-lg font-medium mb-4">Business Details</h1>
+                        <div className="space-y-4">
+                            <input type="text" value={businessName} className="w-full rounded-xl border border-zinc-300 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-black/80" placeholder="Business Name" onChange={(e)=>{setBusinessName(e.target.value)}}/>
+                            <input type="text" value={supportEmail} className="w-full rounded-xl border border-zinc-300 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-black/80" placeholder="Support Email" onChange={(e)=>{setSupportEmail(e.target.value)}}/>
+                        </div>
+                    </div>
+                    <div className="mb-10">
+                        <h1 className="text-lg font-medium mb-4">Knowledge</h1>
+                        <p className="text-sm tex-zinc-500 mb-4">Add FAQs, policies, delivery info, refunds, etc.</p>
+                        <div className="space-y-4">
+                            <textarea
+                                value={knowledge}
+                                className="w-full h-55 rounded-xl border border-zinc-300 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-black/80"
+                                placeholder={`Example:
+Refunc policy: 7 days return available
+Delivery time: 3-5 working days
+Cash on delivery available
+Support hours: 10-5, Monday to Saturday
+                                    `}
+                                    onChange={(e)=>{setKnowledge(e.target.value)}}
+                            />
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-5">
+                        <motion.button
+                            whileHover={{scale:1.03}}
+                            whileTap={{scale:0.97}}
+                            disabled={loading}
+                            onClick={handleSettings}
+                            className="px-7 py-3 rounded-xl bg-black text-white text-sm font-medium hover:bg-zinc-800 transition disabled:opacity-60"
+                        >
+                            {loading ? "Saving...":"Save"}
+                        </motion.button>
+                        {saved && <motion.span
+                            initial={{opacity:0 ,y:6}}
+                            animate={{opacity:1, y:0}}
+                            className="text-sm font-medium text-emerald-600"
+                        >Settings saved</motion.span>}
                     </div>
                 </motion.div>
             </div>
