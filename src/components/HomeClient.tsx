@@ -76,7 +76,7 @@ function HomeClient({ email }: HomeClientProp) {
                                     exit={{ opacity: 0, y: -6 }}
                                     className="absolute right-0 mt-3 w-44 bg-white rounded-xl shadow-xl border border-zinc-200 overflow-hidden"
                                 >
-                                    <button className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-100">Dashboard</button>
+                                    <button className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-100" onClick={()=>navigate.push("/dashboard")}>Dashboard</button>
                                     <button className="w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-zinc-100" onClick={handleLogout}>Logout</button>
                                 </motion.div>
                             )}
