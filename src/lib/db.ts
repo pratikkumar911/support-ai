@@ -1,9 +1,8 @@
 import { connect } from "mongoose";
-import { setServers } from "node:dns";
+import dns from "node:dns/promises";
+dns.setServers(["1.1.1.1"]);
 
-setServers(["1.1.1.1", "8.8.8.8"]);
-
-const mongo_Url = process.env.MONGODB_URL?.replace(/^"(.*)"$/, "$1");
+const mongo_Url = process.env.MONGODB_URL;
 if (!mongo_Url) {
     console.error("MongoDB URL not found. Set MONGODB_URL in .env.local");
 }
