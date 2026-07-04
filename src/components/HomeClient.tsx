@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 const features=[
     {
         title: "Plug & Play",
-        desc: "Add a chatbot to your website with a single script tag."
+        desc: "Add an assistant to your website with a single script tag."
     },{
         title: "Admin Controlled",
         desc: "You control exactly what AI knows and answers."
@@ -23,10 +23,12 @@ interface HomeClientProp {
 
 function HomeClient({ email }: HomeClientProp) {
     const [open, setOpen] = useState(false)
+    const [loading, setLoading] = useState(false);
 
     const navigate = useRouter();
 
     const handleLogin = () => {
+        setLoading(true);
         window.location.href = "/api/auth/login"
     }
 
@@ -63,7 +65,7 @@ function HomeClient({ email }: HomeClientProp) {
                 className="fixed left-0 w-full z-50 bg-white/70 backdrop-blur-xl border-b border-zinc-200"
             >
                 <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-                    <div className="text-lf font-semibold tracking-tight cursor-pointer">Support <span className="text-zinc-400">AI</span></div>
+                    <div className="text-lf font-semibold tracking-tight cursor-pointer" onClick={() => navigate.push("/")}>Assistly</div>
                     {email ? <div className="relative" ref={popupRef}>
                         <button className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-semibold hover:scale-105 transition" onClick={() => { setOpen(!open) }}>
                             {firstLetter}
@@ -81,8 +83,8 @@ function HomeClient({ email }: HomeClientProp) {
                                 </motion.div>
                             )}
                         </AnimatePresence>
-                    </div> : <button className="px-5 py-2 rounded-full bg-black text-white test-sm font-medium hover:bg-zinc-800 transition disabled:opacity-60 flex items-center gap-2 cursor-pointer" onClick={handleLogin}>
-                        Login
+                    </div> : <button className="px-5 py-2 rounded-full bg-black text-white test-sm font-medium hover:bg-zinc-800 transition disabled:opacity-60 flex items-center gap-2 cursor-pointer" onClick={handleLogin} disabled={loading}>
+                        {loading ? "Loading..." : "Login"}
                     </button>}
                 </div>
             </motion.div>
@@ -95,12 +97,12 @@ function HomeClient({ email }: HomeClientProp) {
                         className=""
                     >
                         <h1 className="text-4xl md:text-5xl font-semibold leading-tight">
-                            AI Customer Support <br />
+                            AI Customer Assistant <br />
                             Built for Modern Websites
                         </h1>
                         <p className="mt-6 text-lg text-zinc-600 max-w-xl">
-                            Add a powerful AI chatbot to your website in minutes.
-                            Let your customers get instant answers using your own business knowledge.
+                            Add a powerful AI assistant to your website in minutes.
+                            Let your customers get instant answers using your company's knowledge.
                         </p>
                         <div className="mt-10 flex gap-4">
                             {email ?
@@ -120,16 +122,12 @@ function HomeClient({ email }: HomeClientProp) {
                         <div className="rounded-2xl bg-white shadow-2xl border border-zinc-200 p-6">
                             <div className="text-sm text-zinc-500 mb-3">Live Chat Preview</div>
                             <div className="space-y-4">
-                                <div className="bg-black text-white rounded-lg px-4 py-2 text-sm w-fit">Do you offer cash on delivery?</div>
-                                <div className="bg-zinc-100 rounded-lg px-4 py-2 text-sm w-fit ml-auto">Yes, cash on delivery is available.</div>
+                                <div className="bg-black text-white rounded-lg px-4 py-2 text-sm w-fit ml-auto">Do you offer cash on delivery?</div>
+                                <div className="bg-zinc-100 rounded-lg px-4 py-2 text-sm w-fit">Yes, cash on delivery is available.</div>
                             </div>
-                        <motion.div
-                            animate={{y:[0,-12,0]}}
-                            transition={{repeat: Infinity, duration:1}}
-                            className="absolute -bottom-6 -right-6 w-14 h-14 rounded-full bg-black text-white flex items-center justify-center shadow-xl"
-                        >
+                        <div className="absolute -bottom-15 -right-1 w-14 h-14 rounded-full bg-black text-white flex items-center justify-center shadow-xl">
                             🗨️
-                        </motion.div>
+                        </div>
                         </div>
                     </motion.div>
                 </div>
@@ -146,7 +144,7 @@ function HomeClient({ email }: HomeClientProp) {
                         transition={{duration:0.5}}
                         className="text-3xl font-semibold text-center"
                     >
-                        Why Businesses choose SupportAI
+                        Why Companies choose Assistly
                     </motion.h2>
                     <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-10">
                             {features.map((feature,index)=>(
@@ -166,7 +164,7 @@ function HomeClient({ email }: HomeClientProp) {
                 </div>
             </section>
             <footer className="py-10 text-center text-sm text-zinc-500">
-                &copy; {new Date().getFullYear()} SupportAI. All rights reserved.
+                &copy; {new Date().getFullYear()} Assistly. All rights reserved.
             </footer>
         </div>
     )

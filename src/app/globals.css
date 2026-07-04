@@ -1,1 +1,86 @@
 @import "tailwindcss";
+
+:root{
+	--bg: #f7fbf9;
+	--bg-2: #f0f9f8;
+	--surface: #ffffff;
+	--primary: #0f172a;
+	--on-primary: #ffffff;
+	--text: #0f172a;
+	--muted: #e6eef0;
+	--muted-2: #dbe9e9;
+	--accent: #0ea5a4;
+	--accent-on: #ffffff;
+}
+
+/* Color theme overrides (CSS-only, no JS/TS changes) */
+.bg-zinc-50{ background-color: var(--bg) !important; }
+.bg-zinc-100{ background-color: var(--bg-2) !important; }
+.bg-white{ background-color: var(--surface) !important; }
+.bg-black{ background-color: var(--primary) !important; }
+.bg-zinc-900{ background-color: var(--accent) !important; }
+.bg-zinc{ background-color: var(--bg) !important; }
+
+.text-zinc-900{ color: var(--text) !important; }
+.text-zinc-100{ color: var(--accent-on) !important; }
+.text-white{ color: var(--on-primary) !important; }
+
+.border-zinc-200{ border-color: var(--muted) !important; }
+.border-zinc-300{ border-color: var(--muted-2) !important; }
+
+/* Subtle layout/positioning tweaks without touching functionality */
+.fixed.left-0.w-full.z-50 .max-w-7xl{ height: 5rem !important; }
+.fixed.left-0.w-full.z-50{ backdrop-filter: blur(6px); }
+
+.absolute.bottom-6.right-6{ right: 2.5rem !important; bottom: 2.5rem !important; }
+[class*="-bottom-6"][class*="-right-6"]{ right: 2.5rem !important; bottom: 2.5rem !important; }
+
+/* Slightly softer shadows and rounded surfaces for the new theme */
+.shadow-xl{ box-shadow: 0 8px 30px rgba(15,23,42,0.06) !important; }
+.shadow-2xl{ box-shadow: 0 20px 50px rgba(15,23,42,0.08) !important; }
+
+/* Buttons: use primary color for `.bg-black` utilities */
+.bg-black.text-white{ background-color: var(--primary) !important; color: var(--on-primary) !important; }
+.hover\:bg-zinc-800:hover{ background-color: color-mix(in srgb, var(--primary) 85%, black 15%) !important; }
+
+/* Ensure input/textarea surfaces match new theme */
+input, textarea, .rounded-xl{ background-color: var(--surface) !important; color: var(--text) !important; }
+
+/* Script tag / embed code block styles (black background + copy button)
+	 Targeting the existing utility classes to avoid editing JSX */
+.relative.bg-zinc-900.font-mono.mb-2{
+	background-color: #0b0b0b !important;
+	color: #f5f5f5 !important;
+	padding: 1rem !important;
+	border-radius: 0.9rem !important;
+	box-shadow: 0 12px 40px rgba(2,6,23,0.6) !important;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace !important;
+	position: relative;
+	overflow: hidden;
+}
+
+.relative.bg-zinc-900.font-mono.mb-2 pre{
+	margin: 0;
+	white-space: pre-wrap;
+	word-break: break-word;
+	color: #e6eef0 !important;
+	background: transparent !important;
+	font-size: 0.9rem;
+}
+
+.relative.bg-zinc-900.font-mono.mb-2 button{
+	background: #111111 !important;
+	color: #f7f7f7 !important;
+	border-radius: 0.6rem !important;
+	padding: 0.35rem 0.6rem !important;
+	box-shadow: 0 6px 18px rgba(2,6,23,0.55) !important;
+	border: 1px solid rgba(255,255,255,0.06) !important;
+}
+
+.relative.bg-zinc-900.font-mono.mb-2 button:hover{
+	transform: translateY(-1px);
+}
+
+.relative.bg-zinc-900.font-mono.mb-2::-webkit-scrollbar{ height:8px }
+.relative.bg-zinc-900.font-mono.mb-2::-webkit-scrollbar-thumb{ background: rgba(255,255,255,0.08); border-radius:8px }
+

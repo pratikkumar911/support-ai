@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Support.ai",
-  description: "The chatbot that you can embed in your website",
+  title: "Assistly",
+  description: "The assistant that you can embed in your website",
 };
 
 export default function RootLayout({

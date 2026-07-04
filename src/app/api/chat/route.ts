@@ -19,17 +19,17 @@ export async function POST(req:NextRequest){
             const setting = await Settings.findOne({ownerId})
             if(!setting){
                 return NextResponse.json(
-                    {message:"chatbot is not configured yet"},
+                    {message:"assistant is not configured yet"},
                     {status:400}
                 )
             }
             const KNOWLEDGE = `
-            business name- ${setting.businessName || "not provided"}
+            company name- ${setting.businessName || "not provided"}
             support email- ${setting.supportEmail || "not provided"}
             knowledge- ${setting.knowledge || "not provided"}
             `
             const prompt = `
-You are a professional customer support assistant for this business.
+You are a professional customer support assistant for this company.
 
 Use ONLY the information provided below to answer the customer's question.
 You may rephrase, summarise or interpret the information if needed.
@@ -40,7 +40,7 @@ or cannot be reasonably answered from it, reply exactly with:
 "Please contact support."
 
 ------------------
-BUSINESS INFORMATION
+COMPANY INFORMATION
 ------------------
 ${KNOWLEDGE}
 
