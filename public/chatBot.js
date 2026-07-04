@@ -113,9 +113,9 @@
         box.style.display = "none"
     }
 
-    const input = document.querySelector("#chat-input")
-    const sendBtn = document.querySelector("#chat-send")
-    const messageArea = document.querySelector("#chat-message")
+    const input = box.querySelector("#chat-input")
+    const sendBtn = box.querySelector("#chat-send")
+    const messageArea = box.querySelector("#chat-message")
 
     function addMessage(text,from){
         const bubble = document.createElement("div");
@@ -139,14 +139,15 @@
         messageArea.scrollTop = messageArea.scrollHeight;
     }
 
-    sendBtn.onclick = async () => {
+    async function sendMessage() {
         const text = input.value.trim()
         if(!text) {
             return
         }
 
         addMessage(text, "user")
-        input.value=""
+        input.value = ""
+        input.focus()
 
         const typing = document.createElement("div");
         typing.innerHTML = "Typing...";
@@ -164,13 +165,17 @@
                 method: "POST",
                 headers:{"content-type":"application/json"},
                 body:JSON.stringify({
-                    ownerId,message:text,
+                    ownerId,
+                    message:text,
                 })
             })
 
             const data = await response.json();
             messageArea.removeChild(typing)
-            addMessage(data || "Something went wrong", "ai");
+            const reply = typeof data === "string"
+                ? data
+                : data?.message || data?.text || "Something went wrong";
+            addMessage(reply, "ai");
 
         } catch (error) {
             console.log(error);
@@ -178,5 +183,13 @@
             addMessage("Something went wrong", "ai");
         }
     }
+
+    sendBtn.onclick = sendMessage;
+    input.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            sendMessage();
+        }
+    });
 
 })()
