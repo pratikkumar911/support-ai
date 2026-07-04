@@ -1,3 +1,4 @@
+<img width="1902" height="1029" alt="Screenshot 2026-07-04 151805" src="https://github.com/user-attachments/assets/c5aaf3ba-9033-4dcd-a92b-996583e25a26" />
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
