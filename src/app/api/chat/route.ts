@@ -61,11 +61,35 @@ ANSWER
             model: "gemini-2.5-flash",
             contents: prompt,
         });
-        return NextResponse.json(response.text)
+        const res = NextResponse.json(response.text)
+
+        res.headers.set("Access-Control-Allow-Origin", "*");
+        res.headers.set("Access-Control-Allow-Methods", "POST, OPTIONS");
+        res.headers.set("Access-Control-Allow-Headers", "Content-Type");
+
+        return res;
     } catch (error) {
-        return NextResponse.json(
+
+        const res = NextResponse.json(
             { message: `chat error ${error}` },
             { status: 500 }
         )
+
+        res.headers.set("Access-Control-Allow-Origin", "*");
+        res.headers.set("Access-Control-Allow-Methods", "POST, OPTIONS");
+        res.headers.set("Access-Control-Allow-Headers", "Content-Type");
+
+        return res;
     }
+}
+
+export const OPTIONS = async () => {
+    return NextResponse.json(null, {
+        status:201,
+        headers:{
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type",
+        }
+    })
 }
