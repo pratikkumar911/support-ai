@@ -81,7 +81,7 @@
     ">
     <input
         id="chat-input"
-        type:"text"
+        type="text"
         placeholder="Type a message"
         style="
             flex:1;
