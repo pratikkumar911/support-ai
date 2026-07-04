@@ -90,6 +90,7 @@
             border-radius:8px;
             font-size:13px;
             outline:none;
+            color:black;
         "
     />
     <button id="chat-send" style="
