@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 # Assistly
+
+<img width="1902" height="1029" alt="Screenshot 2026-07-04 151805" src="https://github.com/user-attachments/assets/c5aaf3ba-9033-4dcd-a92b-996583e25a26" />
+
+<img width="642" height="737" alt="Screenshot 2026-07-04 152729" src="https://github.com/user-attachments/assets/65045272-1280-43b6-8789-55c719ede53c" />
 
 Assistly is a modern AI support platform built with Next.js. It allows a business owner to authenticate, configure their assistant knowledge, generate an embeddable chat widget, and let website visitors ask questions through an AI-powered support experience.
 
