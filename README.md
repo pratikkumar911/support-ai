@@ -1,36 +1,126 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Assistly
 
-## Getting Started
+Assistly is a modern AI support platform built with Next.js. It allows a business owner to authenticate, configure their assistant knowledge, generate an embeddable chat widget, and let website visitors ask questions through an AI-powered support experience.
 
-First, run the development server:
+The project combines authentication, database-backed settings, and a Gemini-powered chat API into one flow that feels simple from the user’s perspective but is structured enough to scale.
 
-```bash
+## What this project does
+
+Assistly helps a company do three main things:
+
+1. Authenticate an admin user
+2. Store business-specific support knowledge
+3. Embed a live AI chat assistant into a website
+
+Once configured, the assistant can answer questions based on the company’s saved information such as policies, delivery rules, refund details, support hours, and general FAQs.
+
+## Core project flow
+
+Here is the main user journey in this application:
+
+1. A visitor lands on the home page
+2. If they are not signed in, they can log in through ScaleKit authentication
+3. After login, the app creates a session and the user can enter the dashboard
+4. In the dashboard, the owner enters company details and support knowledge
+5. These settings are saved to MongoDB
+6. The owner opens the embed page and copies a small script snippet
+7. The script is pasted into a website, where it injects a floating support chat widget
+8. When a customer sends a message, the widget sends it to the chat API
+9. The chat API loads the owner’s saved settings, builds a prompt, and sends it to Gemini
+10. The response is returned to the website chat widget as the assistant answer
+
+## Architecture overview
+
+### Frontend
+
+The frontend is built with Next.js App Router and React. The important UI pages are:
+
+- Home page: landing experience and login/logout flow
+- Dashboard page: settings management for the assistant
+- Embed page: script generation for website integration
+
+### Backend APIs
+
+The app uses server-side route handlers to manage authentication and chat behavior:
+
+- /api/auth/login: starts the authentication redirect flow
+- /api/auth/callback: receives the OAuth callback and creates the session cookie
+- /api/settings: saves or updates assistant settings
+- /api/settings/get: retrieves saved settings for a specific owner
+- /api/chat: receives chat messages and returns AI-generated answers
+
+### Data layer
+
+The project uses MongoDB through Mongoose to store assistant configuration. Each owner has a single settings document keyed by ownerId.
+
+## Main folders
+
+- src/app: application routes, pages, and API handlers
+- src/components: client-side UI components such as the home, dashboard, and embed screens
+- src/lib: shared logic for database connection, session handling, and authentication client setup
+- src/model: Mongoose schemas for persisted data
+- public: static assets such as the embeddable chat script
+
+## How the assistant works
+
+The assistant is not a generic chatbot by default. It is designed to answer only from the information you provide in the dashboard.
+
+When a customer asks a question:
+
+- the widget sends the message and ownerId to the chat endpoint
+- the server loads the matching saved settings
+- a constrained prompt is created using the company information
+- Gemini responds using only that knowledge
+- if the question is unrelated or not answerable from the provided data, the assistant returns a fallback response
+
+This keeps the assistant consistent, controlled, and useful for customer support.
+
+## Environment variables
+
+Create a .env.local file in the project root and add the following values:
+
+- NEXT_PUBLIC_APP_URL: the public URL of your application
+- SCALEKIT_ENVIRONMENT_URL: your ScaleKit environment URL
+- SCALEKIT_CLIENT_ID: your ScaleKit client ID
+- SCALEKIT_CLIENT_SECRET: your ScaleKit client secret
+- MONGODB_URL: your MongoDB connection string
+- GEMINI_API_KEY: your Google Gemini API key
+
+## Getting started
+
+Install dependencies:
+
+npm install
+
+Run the development server:
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open http://localhost:3000 in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build and lint
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+To create a production build:
 
-## Learn More
+npm run build
 
-To learn more about Next.js, take a look at the following resources:
+To run lint checks:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+npm run lint
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deployment notes
 
-## Deploy on Vercel
+This project is designed to be deployed as a Next.js app. Make sure your environment variables are configured in your hosting platform and that the public application URL is correct for authentication and embed script behavior.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+If you self-host or change the deployment domain, update the chat endpoint reference in the embed script so it points to the correct backend route.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Summary
+
+Assistly is a simple but complete AI support workflow:
+
+- authenticate the owner
+- store company support knowledge
+- generate an embed script
+- let website visitors chat with an AI assistant
+
+That makes it a practical starting point for building a branded customer support experience for any business.
